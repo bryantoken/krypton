@@ -14,14 +14,15 @@ class User < ApplicationRecord
     likes.exists?(post_id: post.id)
   end
 
-  # Relacionamentos de Amizade (Network) 
+  # Relacionamentos de Amizade (Network)
   has_many :friendships, dependent: :destroy
-  has_many :friends, through: :friendships
-  
+  # Especificamos que o 'friend' através de friendships é na verdade um 'User'
+  has_many :friends, through: :friendships, source: :friend, class_name: "User"
+
   has_many :inverse_friendships, class_name: "Friendship", foreign_key: "friend_id", dependent: :destroy
   has_many :followers, through: :inverse_friendships, source: :user
 
   def following?(other_user)
-    friends.include?(other_user) [cite: 14]
+    friends.include?(other_user)
   end
 end
