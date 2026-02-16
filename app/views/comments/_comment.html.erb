@@ -1,0 +1,13 @@
+<div id="<%= dom_id comment %>" class="p-4 bg-green-500/5 border border-green-500/10 rounded-lg mb-2">
+  <div class="flex justify-between items-start mb-2">
+    <span class="text-[10px] font-archivo text-green-500 uppercase">
+      From: <%= comment.user.email.split('@').first %>
+    </span>
+    <span class="text-[8px] font-mono text-green-900">
+      <%= l comment.created_at, format: :short %>
+    </span>
+  </div>
+  <div class="text-sm text-green-100/70 font-sans">
+    <%= comment.body %>
+  </div>
+</div>

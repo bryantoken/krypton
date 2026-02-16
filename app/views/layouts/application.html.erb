@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html class="bg-gray-950">
+  <head>
+    <title>Krypton | Secure Signal</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    
+    <%# Tags PWA %>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#030712">
+    <link rel="manifest" href="/manifest.json">
+    <script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
+
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%# Importação de ícones e CSS %>
+    <!-- No <head> do layout -->
+<link rel="stylesheet" type="text/css" href="https://unpkg.com/trix@2.0.0/dist/trix.css">
+    <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/index.css">
+    <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body class="min-h-screen bg-gray-950 text-green-100 selection:bg-green-500 selection:text-black">
+    <div class="scanlines"></div>
+    <%= render "layouts/navbar" %>
+<main class="container mx-auto max-w-5xl px-6 pt-16 pb-16 min-h-screen flex flex-col items-center">
+  <div class="w-full">
+    <%= yield %>
+  </div>
+</main>
+  </body>
+</html>

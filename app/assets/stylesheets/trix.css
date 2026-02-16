@@ -1,0 +1,62 @@
+/* Trix Editor - Tema Verde/Escuro */
+trix-toolbar {
+  background: #1a1a1a !important;
+  border: 1px solid rgba(34, 197, 94, 0.3) !important;
+  border-radius: 8px 8px 0 0 !important;
+}
+
+trix-toolbar .trix-button-group {
+  background: transparent !important;
+  border-color: rgba(34, 197, 94, 0.2) !important;
+}
+
+trix-toolbar .trix-button {
+  color: #22c55e !important;
+  border: none !important;
+}
+
+trix-toolbar .trix-button:hover {
+  background: rgba(34, 197, 94, 0.1) !important;
+}
+
+trix-toolbar .trix-button.trix-active {
+  background: rgba(34, 197, 94, 0.2) !important;
+}
+
+trix-editor {
+  background: #111827 !important;
+  color: #d1fae5 !important;
+  border: 1px solid rgba(34, 197, 94, 0.3) !important;
+  border-top: none !important;
+  border-radius: 0 0 8px 8px !important;
+  min-height: 300px !important;
+  padding: 1rem !important;
+}
+
+trix-editor:focus {
+  outline: none !important;
+  border-color: rgba(34, 197, 94, 0.5) !important;
+}
+
+trix-editor h1 {
+  color: #22c55e !important;
+  font-size: 2em !important;
+}
+
+trix-editor a {
+  color: #4ade80 !important;
+}
+
+trix-editor code {
+  background: rgba(34, 197, 94, 0.1) !important;
+  color: #86efac !important;
+  padding: 0.2em 0.4em !important;
+  border-radius: 3px !important;
+}
+
+trix-editor pre {
+  background: #0a0a0a !important;
+  border: 1px solid rgba(34, 197, 94, 0.2) !important;
+  border-radius: 4px !important;
+  padding: 1em !important;
+}

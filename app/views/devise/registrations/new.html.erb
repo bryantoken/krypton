@@ -1,0 +1,52 @@
+<div class="min-h-screen flex items-center justify-center bg-gray-950 px-4 py-12">
+  <div class="w-full max-w-md space-y-8 bg-gray-900 p-10 rounded-2xl border border-green-500/20 shadow-[0_0_50px_-12px_rgba(34,197,94,0.3)]">
+    
+    <div class="text-center">
+      <h2 class="font-archivo text-4xl font-bold tracking-tighter text-green-500 drop-shadow-[0_0_10px_rgba(34,197,94,0.8)]">
+        KRYPTON
+      </h2>
+      <p class="mt-2 text-sm text-green-700 font-medium tracking-widest uppercase">
+        Create your identity
+      </p>
+    </div>
+
+    <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: "mt-8 space-y-6" }) do |f| %>
+      <%= render "devise/shared/error_messages", resource: resource %>
+
+      <div class="space-y-4">
+        <div class="field">
+          <%= f.label :email, class: "block text-xs font-bold text-green-500 uppercase tracking-widest ml-1 mb-1" %>
+          <%= f.email_field :email, autofocus: true, autocomplete: "email", 
+              class: "block w-full rounded-lg border-0 bg-gray-800 py-3 text-green-400 shadow-sm ring-1 ring-inset ring-green-900 focus:ring-2 focus:ring-inset focus:ring-green-500 placeholder:text-gray-600 sm:text-sm transition-all" %>
+        </div>
+
+        <div class="field">
+          <div class="flex justify-between items-end mb-1">
+            <%= f.label :password, class: "block text-xs font-bold text-green-500 uppercase tracking-widest ml-1" %>
+            <% if @minimum_password_length %>
+              <span class="text-[10px] text-green-800 italic">(<%= @minimum_password_length %> min chars)</span>
+            <% end %>
+          </div>
+          <%= f.password_field :password, autocomplete: "new-password", 
+              class: "block w-full rounded-lg border-0 bg-gray-800 py-3 text-green-400 shadow-sm ring-1 ring-inset ring-green-900 focus:ring-2 focus:ring-inset focus:ring-green-500 transition-all" %>
+        </div>
+
+        <div class="field">
+          <%= f.label :password_confirmation, class: "block text-xs font-bold text-green-500 uppercase tracking-widest ml-1 mb-1" %>
+          <%= f.password_field :password_confirmation, autocomplete: "new-password", 
+              class: "block w-full rounded-lg border-0 bg-gray-800 py-3 text-green-400 shadow-sm ring-1 ring-inset ring-green-900 focus:ring-2 focus:ring-inset focus:ring-green-500 transition-all" %>
+        </div>
+      </div>
+
+      <div class="actions">
+        <%= f.submit "Infect System", 
+            class: "group relative flex w-full justify-center rounded-lg bg-green-600 px-3 py-4 text-sm font-archivo font-bold text-gray-950 hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-500 transition-all cursor-pointer shadow-[0_0_20px_rgba(34,197,94,0.4)] hover:shadow-[0_0_30px_rgba(34,197,94,0.6)]" %>
+      </div>
+    <% end %>
+
+    <div class="text-center mt-6">
+      <%= render "devise/shared/links" %>
+    </div>
+
+  </div>
+</div>

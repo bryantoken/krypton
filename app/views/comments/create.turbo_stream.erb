@@ -1,0 +1,5 @@
+<%# Adiciona o novo comentário ao final da lista de comentários %>
+<%= turbo_stream.append "comments_list_#{@post.id}", partial: "comments/comment", locals: { comment: @comment } %>
+
+<%# Limpa o campo de texto do formulário para o próximo comentário %>
+<%= turbo_stream.replace "comment_form_#{@post.id}", partial: "comments/form", locals: { post: @post, comment: Comment.new } %>

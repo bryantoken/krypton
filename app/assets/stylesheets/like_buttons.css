@@ -1,0 +1,80 @@
+/* ====================================
+   CSS PARA BOTÕES DE LIKE - FORÇAR TAMANHOS IGUAIS
+   Substitua TODO o conteúdo de app/assets/stylesheets/like_buttons.css
+   ==================================== */
+
+/* Container do botão de like - sem espaçamento */
+[id^="like_button_post_"],
+#like_button_post {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  line-height: 0 !important;
+}
+
+/* Form gerado pelo button_to - zero espaçamento */
+[id^="like_button_post_"] form,
+#like_button_post form {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  line-height: 0 !important;
+  border: none !important;
+  background: none !important;
+  width: auto !important;
+  height: auto !important;
+}
+
+/* Botão - TAMANHO FIXO ABSOLUTO */
+[id^="like_button_post_"] form button,
+#like_button_post form button {
+  width: 36px !important;
+  height: 36px !important;
+  min-width: 36px !important;
+  min-height: 36px !important;
+  max-width: 36px !important;
+  max-height: 36px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex-shrink: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  line-height: 0 !important;
+  box-sizing: border-box !important;
+}
+
+/* Ícone - centralizado */
+[id^="like_button_post_"] form button i,
+#like_button_post form button i {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  line-height: 1 !important;
+  font-style: normal !important;
+  width: 14px !important;
+  height: 14px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Durante submissão Turbo - manter tamanho */
+[id^="like_button_post_"] form button[data-turbo-submits-with],
+#like_button_post form button[data-turbo-submits-with] {
+  width: 36px !important;
+  height: 36px !important;
+  min-width: 36px !important;
+  min-height: 36px !important;
+}
+
+/* Remover outline durante submit */
+[id^="like_button_post_"] form button:focus,
+#like_button_post form button:focus {
+  outline: none !important;
+}
+
+

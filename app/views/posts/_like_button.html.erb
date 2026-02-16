@@ -1,0 +1,39 @@
+<% if user_signed_in? %>
+  <% if current_user.liked?(post) %>
+    <%# Usuário já deu like - botão para remover %>
+    <%= button_to post_like_path(post, post.likes.find_by(user: current_user)), 
+                  method: :delete,
+                  class: "!w-9 !h-9 !min-w-[36px] !min-h-[36px] !max-w-[36px] !max-h-[36px] bg-green-500/20 rounded border border-green-500/30 text-green-400 hover:bg-green-500/30 transition-all cursor-pointer !inline-flex !items-center !justify-center !shrink-0 !p-0 !m-0 box-border",
+                  title: "Unlike Signal",
+                  data: { 
+                    turbo_frame: "_top",
+                    turbo_submits_with: '<i class="ph-fill ph-heart text-sm"></i>'
+                  },
+                  form: { class: "!inline-flex !m-0 !p-0 !leading-[0]" } do %>
+      <i class="ph-fill ph-heart text-sm"></i>
+    <% end %>
+  <% else %>
+    <%# Usuário ainda não deu like - botão para dar like %>
+    <%= button_to post_likes_path(post), 
+                  method: :post,
+                  class: "!w-9 !h-9 !min-w-[36px] !min-h-[36px] !max-w-[36px] !max-h-[36px] bg-green-500/5 rounded border border-green-500/20 text-green-500 hover:bg-green-500/40 transition-all cursor-pointer !inline-flex !items-center !justify-center !shrink-0 !p-0 !m-0 box-border",
+                  title: "Like Signal",
+                  data: { 
+                    turbo_frame: "_top",
+                    turbo_submits_with: '<i class="ph ph-heart text-sm"></i>'
+                  },
+                  form: { class: "!inline-flex !m-0 !p-0 !leading-[0]" } do %>
+      <i class="ph ph-heart text-sm"></i>
+    <% end %>
+  <% end %>
+<% else %>
+  <%# Usuário não está logado - botão desabilitado %>
+  <button type="button" 
+          disabled
+          class="w-9 h-9 min-w-[36px] min-h-[36px] max-w-[36px] max-h-[36px] bg-green-500/5 rounded border border-green-500/10 text-green-500/30 cursor-not-allowed opacity-50 inline-flex items-center justify-center shrink-0 p-0 m-0 box-border"
+          title="Login to Like">
+    <i class="ph ph-heart text-sm"></i>
+  </button>
+<% end %>
+
+

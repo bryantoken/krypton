@@ -1,0 +1,31 @@
+@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@theme {
+  --font-archivo: "Archivo Black", sans-serif;
+}
+
+body {
+  @apply bg-gray-950 text-green-100 selection:bg-green-500 selection:text-black;
+}
+
+trix-toolbar {
+  @apply bg-gray-900 border border-green-500/30 rounded-t-lg p-2 sticky top-0 z-20;
+}
+
+trix-toolbar .trix-button {
+  filter: invert(1) sepia(1) saturate(5) hue-rotate(90deg) brightness(1.2);
+}
+
+trix-editor {
+  @apply w-full bg-gray-950/50 border border-green-500/30 rounded-b-lg text-green-100 p-6 outline-none;
+  min-height: 400px;
+}
+
+.scanlines {
+  @apply fixed inset-0 pointer-events-none z-50 opacity-[0.03];
+  background: linear-gradient(#12101000 50%, #00000040 50%) 0 0/100% 4px,
+              linear-gradient(90deg, #ff00000f, #00ff0005, #0000ff0f) 0 0/4px 100%;
+}

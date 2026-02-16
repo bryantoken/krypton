@@ -1,0 +1,37 @@
+<% content_for :title, "Edit Transmission | Krypton" %>
+
+<div class="min-h-screen bg-gray-950 py-12 px-4">
+  <div class="max-w-3xl mx-auto">
+    
+    <%# Cabeçalho do Terminal %>
+    <div class="mb-10 border-b border-green-500/20 pb-6">
+      <h1 class="font-archivo text-4xl text-green-500 tracking-tighter uppercase drop-shadow-[0_0_10px_rgba(34,197,94,0.4)]">
+        Modify Signal Transmission
+      </h1>
+      <p class="text-[10px] text-green-800 font-mono mt-2 uppercase tracking-[0.3em]">
+        Updating encrypted data... protocol #<%= @post.id %>
+      </p>
+    </div>
+
+    <%# Container do Formulário %>
+    <div class="bg-gray-900/40 backdrop-blur-xl p-8 rounded-2xl border border-green-500/10 shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
+      <%= render "form", post: @post %>
+    </div>
+
+    <%# Botões de Navegação %>
+    <div class="mt-8 flex gap-4 justify-center flex-wrap">
+      <%= link_to @post, class: "flex items-center gap-2 text-[10px] font-archivo font-bold text-green-500 hover:text-green-300 transition-all uppercase tracking-widest" do %>
+        <i class="ph-bold ph-arrow-left"></i>
+        Return to Signal
+      <% end %>
+      
+      <%= link_to posts_path, class: "flex items-center gap-2 text-[10px] font-archivo font-bold text-green-900 hover:text-green-500 transition-all uppercase tracking-widest" do %>
+        <i class="ph-bold ph-house"></i>
+        Back to Feed
+      <% end %>
+    </div>
+
+  </div>
+</div>
+
+

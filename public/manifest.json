@@ -1,0 +1,16 @@
+{
+  "name": "Krypton Network",
+  "short_name": "Krypton",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#030712",
+  "theme_color": "#22c55e",
+  "description": "Secure Terminal Communication",
+  "icons": [
+    {
+      "src": "/icon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

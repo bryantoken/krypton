@@ -1,0 +1,6 @@
+<div class="flex items-center gap-1">
+  <i class="ph-fill ph-heart <%= post.likes.any? ? 'text-green-400' : 'text-green-500/40' %> text-xs"></i>
+  <span class="text-[10px] font-mono <%= post.likes.any? ? 'text-green-400' : 'text-green-500/40' %>">
+    <%= post.likes.count %>
+  </span>
+</div>

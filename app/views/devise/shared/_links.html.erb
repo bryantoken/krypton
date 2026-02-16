@@ -1,0 +1,36 @@
+<div class="flex flex-col gap-3 mt-8 border-t border-green-500/10 pt-6">
+  <%- if controller_name != 'sessions' %>
+    <%= link_to "Already have access? Log in", new_session_path(resource_name), 
+        class: "text-[10px] font-bold text-green-700 hover:text-green-400 uppercase tracking-[0.2em] transition-colors duration-300" %>
+  <% end %>
+
+  <%- if devise_mapping.registerable? && controller_name != 'registrations' %>
+    <%= link_to "New identity? Sign up", new_registration_path(resource_name), 
+        class: "text-[10px] font-bold text-green-700 hover:text-green-400 uppercase tracking-[0.2em] transition-colors duration-300" %>
+  <% end %>
+
+  <%- if devise_mapping.recoverable? && controller_name != 'passwords' && controller_name != 'registrations' %>
+    <%= link_to "Reset Security Protocol?", new_password_path(resource_name), 
+        class: "text-[10px] font-bold text-green-900 hover:text-green-500 uppercase tracking-[0.2em] transition-colors duration-300 italic" %>
+  <% end %>
+
+  <%- if devise_mapping.confirmable? && controller_name != 'confirmations' %>
+    <%= link_to "Resend validation link", new_confirmation_path(resource_name), 
+        class: "text-[10px] font-medium text-green-800 hover:text-green-400 transition-all uppercase" %> 
+  <% end %>
+
+  <%- if devise_mapping.lockable? && resource_class.unlock_strategy_enabled?(:email) && controller_name != 'unlocks' %>
+    <%= link_to "Unlock access instructions", new_unlock_path(resource_name), 
+        class: "text-[10px] font-medium text-green-800 hover:text-green-400 transition-all uppercase" %> 
+  <% end %>
+
+  <%- if devise_mapping.omniauthable? %>
+    <div class="pt-4 flex flex-col gap-2">
+      <%- resource_class.omniauth_providers.each do |provider| %>
+        <%= button_to "Bypass with #{OmniAuth::Utils.camelize(provider)}", omniauth_authorize_path(resource_name, provider), 
+            data: { turbo: false },
+            class: "w-full py-2 px-4 rounded border border-green-500/30 bg-green-500/5 text-[10px] font-archivo font-bold text-green-500 hover:bg-green-500/20 transition-all cursor-pointer uppercase tracking-widest" %> 
+      <% end %>
+    </div>
+  <% end %>
+</div>
