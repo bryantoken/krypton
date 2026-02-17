@@ -1,9 +1,7 @@
-# app/controllers/friendships_controller.rb
 class FriendshipsController < ApplicationController
   before_action :authenticate_user!
 
   def create
-    # Tenta criar a amizade com o ID do alvo vindo do parâmetro
     @friendship = current_user.friendships.build(friend_id: params[:friend_id])
     
     if @friendship.save
@@ -14,11 +12,15 @@ class FriendshipsController < ApplicationController
   end
 
   def destroy
-    # Busca a amizade para encerrar a conexão
-    @friendship = current_user.friendships.find_by(friend_id: params[:id])
+    # Tenta encontrar a amizade pelo ID da relação ou pelo ID do amigo
+    @friendship = current_user.friendships.find_by(id: params[:id])
+    @friendship ||= current_user.friendships.find_by(friend_id: params[:id])
+
     if @friendship
       @friendship.destroy
       redirect_back fallback_location: root_path, notice: "[CONNECTION_TERMINATED]"
+    else
+      redirect_back fallback_location: root_path, alert: "[SIGNAL_NOT_FOUND]"
     end
-  end
-end
+  end # fecha o def destroy
+end # fecha a class FriendshipsController

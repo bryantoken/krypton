@@ -9,6 +9,9 @@ class User < ApplicationRecord
   has_many :likes, dependent: :destroy
   has_many :liked_posts, through: :likes, source: :post
 
+  has_many :messages, dependent: :destroy
+has_many :chats, through: :chat_participants
+has_many :chat_participants, dependent: :destroy
   # Método para verificar se o usuário já deu like em um post
   def liked?(post)
     likes.exists?(post_id: post.id)

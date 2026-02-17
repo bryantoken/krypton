@@ -4,21 +4,18 @@ class MessagesController < ApplicationController
   before_action :set_message, only: [:edit, :update, :destroy]
 
   def create
-    @chat = Chat.find(params[:chat_id])
     @message = @chat.messages.build(message_params)
     @message.user = current_user
 
     if @message.save
-      # [VITAL]: O redirecionamento faz a página carregar a nova mensagem do banco
       redirect_to chat_path(@chat)
     else
-      # Se falhar (ex: corpo vazio), volta para o chat com erro
       redirect_to chat_path(@chat), alert: "[SIGNAL_ERROR]"
     end
   end
 
-def edit
-    # O Rails vai procurar a view app/views/messages/edit.html.erb
+  def edit
+    # Verificar se ainda pode editar (< 1 hora)
     unless @message.authorized_to_modify?
       redirect_to chat_path(@chat), alert: "[ACCESS_DENIED_TIME_EXPIRED]"
     end
@@ -31,10 +28,13 @@ def edit
       redirect_to chat_path(@chat), alert: "[MODIFICATION_FAILURE]"
     end
   end
+  
   def destroy
     if @message.authorized_to_modify?
       @message.destroy
-      # Sucesso: LOG_DELETED
+      redirect_to chat_path(@chat), notice: "[LOG_DELETED]"
+    else
+      redirect_to chat_path(@chat), alert: "[ACCESS_DENIED_TIME_EXPIRED]"
     end
   end
 
@@ -45,7 +45,13 @@ def edit
   end
 
   def set_message
-    @message = current_user.messages.find(params[:id])
+    # Buscar mensagem dentro do chat
+    @message = @chat.messages.find(params[:id])
+    
+    # Verificar se o usuário é o dono da mensagem
+    unless @message.user == current_user
+      redirect_to chat_path(@chat), alert: "[ACCESS_DENIED]"
+    end
   end
 
   def message_params
