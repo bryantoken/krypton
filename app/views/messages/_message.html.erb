@@ -1,42 +1,290 @@
-<div id="<%= dom_id message %>" class="flex <%= message.user == current_user ? 'justify-end' : 'justify-start' %> group items-start gap-3">
+<%# Mensagem - Menu separado da estrutura %>
+<div id="<%= dom_id message %>" 
+     class="message-item py-1.5 px-3 select-none"
+     data-message-id="<%= message.id %>"
+     data-message-body="<%= message.body.gsub("'", "\\'").gsub('"', '&quot;') %>"
+     data-is-own="<%= message.user == current_user %>">
   
-  <% if message.user != current_user %>
-    <div class="opacity-0 group-hover:opacity-100 transition-opacity flex flex-col gap-2 pt-1">
-      <button onclick="setReply(<%= message.id %>, '<%= j message.body %>')" class="text-green-900 hover:text-green-500 transition-colors">
-        <i class="ph ph-arrow-bend-up-left text-sm"></i>
-      </button>
-    </div>
-  <% end %>
+  <div class="flex <%= message.user == current_user ? 'justify-end' : 'justify-start' %> items-end gap-2 group">
 
-  <div class="max-w-[75%] space-y-1">
-    <% if message.parent_id.present? %>
-      <div class="text-[8px] text-green-800 uppercase tracking-widest ml-1">
-        // REF: <%= truncate(message.parent.body, length: 20) %>
-      </div>
-    <% end %>
-
-    <div class="relative border border-green-500/20 bg-green-500/5 px-4 py-3 rounded-xl group-hover:border-green-500/40 transition-all shadow-[0_0_10px_rgba(34,197,94,0.05)]">
-      <p class="text-[13px] text-green-400 leading-relaxed"><%= message.body %></p>
+    <%# Container da mensagem %>
+    <div class="message-content flex flex-col max-w-[90%] md:max-w-[75%]"
+         style="transition: transform 0.2s ease-out;">
       
-      <div class="flex justify-between items-center mt-2 border-t border-green-500/10 pt-1">
-        <span class="text-[8px] text-green-900 font-mono tracking-widest">
-          <%= message.created_at.strftime("%H:%M:%S") %>
-        </span>
-        <% if message.user == current_user && message.created_at > 1.hour.ago %>
-          <div class="opacity-0 group-hover:opacity-100 transition-opacity flex gap-2">
-            <i class="ph ph-note-pencil text-[10px] text-green-900 hover:text-green-500 cursor-pointer"></i>
-            <i class="ph ph-trash text-[10px] text-red-900 hover:text-red-700 cursor-pointer"></i>
+      <%# Preview de mensagem respondida - COM PADDING VERTICAL %>
+      <% if message.parent.present? %>
+        <div class="mb-3 <%= message.user == current_user ? 'mr-2' : 'ml-2' %>">
+          <div class="px-3 py-2 bg-gray-900/60 backdrop-blur-sm border-l-2 border-green-500/70 rounded-r-lg text-[10px]">
+            <div class="text-green-400 font-bold uppercase tracking-wider mb-0.5 flex items-center gap-1">
+              <i class="ph-bold ph-arrow-bend-down-right text-[10px]"></i>
+              @<%= message.parent.user.nickname %>
+            </div>
+            <div class="text-green-200/60 line-clamp-1 break-words">
+              <%= message.parent.body %>
+            </div>
           </div>
-        <% end %>
+        </div>
+      <% end %>
+
+      <%# Bubble da mensagem %>
+      <div class="message-bubble relative
+                  bg-gradient-to-br from-green-600/20 via-green-700/15 to-green-800/10
+                  backdrop-blur-xl 
+                  border border-green-500/30
+                  <%= message.user == current_user ? 'rounded-2xl rounded-br-md' : 'rounded-2xl rounded-bl-md' %>
+                  px-4 py-3
+                  shadow-xl shadow-black/40
+                  hover:shadow-green-500/20 hover:border-green-500/50
+                  transition-all duration-300
+                  overflow-hidden">
+        
+        <%# Efeito de vidro no hover %>
+        <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
+          <div class="absolute inset-0 bg-gradient-to-r from-transparent via-green-400/10 to-transparent animate-shimmer"></div>
+        </div>
+        
+        <%# Nome do usuário %>
+        <div class="relative text-[10px] font-bold uppercase tracking-wider mb-1.5
+                    <%= message.user == current_user ? 'text-green-300' : 'text-green-400' %>">
+          @<%= message.user.nickname %>
+        </div>
+        
+        <%# Conteúdo da mensagem - COM QUEBRA DE LINHA %>
+        <div class="relative text-[15px] text-green-50 leading-relaxed break-words whitespace-pre-wrap overflow-wrap-anywhere">
+          <%= message.body %>
+        </div>
+        
+        <%# Footer: hora %>
+        <div class="relative flex justify-between items-center mt-2 pt-1.5 border-t border-green-500/10">
+          <span class="text-[9px] text-green-400/60 font-mono tracking-wider">
+            <%= message.created_at.strftime("%H:%M") %>
+          </span>
+          
+          <%# Check duplo %>
+          <% if message.user == current_user %>
+            <span class="text-[10px] text-green-400/70">✓✓</span>
+          <% end %>
+        </div>
       </div>
+    </div>
+
+    <%# Botão Reply - TAMANHO FIXO %>
+    <button type="button"
+            onclick="replyToMessage(<%= message.id %>, '<%= message.body.gsub("'", "\\'").gsub('"', '&quot;') %>')"
+            class="flex-shrink-0 w-9 h-9 min-w-[36px] min-h-[36px] max-w-[36px] max-h-[36px] rounded-lg 
+                   bg-green-950/50 backdrop-blur-sm
+                   border border-green-500/40 
+                   flex items-center justify-center 
+                   text-green-400 
+                   hover:bg-green-500/20 hover:border-green-400/70 hover:text-green-300
+                   transition-all duration-200
+                   opacity-0 group-hover:opacity-100
+                   shadow-lg"
+            title="Reply">
+      <i class="ph-bold ph-arrow-bend-up-left text-base"></i>
+    </button>
+  </div>
+</div>
+
+<%# Context Menu - RENDERIZADO NO BODY (FORA DA MENSAGEM) %>
+<% content_for :context_menus do %>
+  <div id="context-menu-<%= message.id %>" 
+       class="context-menu-item fixed hidden
+              bg-gray-900/98 backdrop-blur-3xl 
+              border-2 border-green-500/60 
+              rounded-2xl 
+              shadow-[0_20px_70px_rgba(0,0,0,0.9),0_0_40px_rgba(34,197,94,0.2)]
+              overflow-hidden
+              min-w-[200px]"
+       style="z-index: 999999 !important; pointer-events: auto; backdrop-filter: blur(40px) saturate(180%);">
+    
+    <%# Efeito de vidro líquido %>
+    <div class="absolute inset-0 bg-gradient-to-br from-green-500/10 via-transparent to-green-900/5 pointer-events-none"></div>
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(34,197,94,0.1),transparent_50%)] pointer-events-none"></div>
+    
+    <div class="py-1 relative">
+      <%# Reply %>
+      <button type="button"
+              onclick="replyToMessage(<%= message.id %>, '<%= message.body.gsub("'", "\\'").gsub('"', '&quot;') %>'); hideContextMenu(<%= message.id %>)"
+              class="w-full px-4 py-3 text-left text-sm text-green-300 hover:bg-green-500/20 hover:text-green-100 flex items-center gap-3 transition-all duration-200 relative group">
+        <div class="absolute inset-0 bg-gradient-to-r from-green-500/0 via-green-500/10 to-green-500/0 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+        <i class="ph-bold ph-arrow-bend-up-left text-base relative z-10"></i>
+        <span class="relative z-10">Reply</span>
+      </button>
+      
+      <%# Copy %>
+      <button type="button"
+              onclick="copyMessageText('<%= message.body.gsub("'", "\\'").gsub('"', '&quot;') %>'); hideContextMenu(<%= message.id %>)"
+              class="w-full px-4 py-3 text-left text-sm text-green-300 hover:bg-green-500/20 hover:text-green-100 flex items-center gap-3 transition-all duration-200 relative group">
+        <div class="absolute inset-0 bg-gradient-to-r from-green-500/0 via-green-500/10 to-green-500/0 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+        <i class="ph-bold ph-copy text-base relative z-10"></i>
+        <span class="relative z-10">Copy</span>
+      </button>
+      
+      <%# Edit e Delete %>
+      <% if message.user == current_user && message.authorized_to_modify? %>
+        <div class="border-t border-green-500/30 my-1"></div>
+        
+        <%# Edit %>
+        <%= link_to edit_chat_message_path(@chat, message),
+                    class: "w-full px-4 py-3 text-left text-sm text-cyan-300 hover:bg-cyan-500/20 hover:text-cyan-100 flex items-center gap-3 transition-all duration-200 block relative group",
+                    onclick: "hideContextMenu(#{message.id})" do %>
+          <div class="absolute inset-0 bg-gradient-to-r from-cyan-500/0 via-cyan-500/10 to-cyan-500/0 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+          <i class="ph-bold ph-pencil-simple text-base relative z-10"></i>
+          <span class="relative z-10">Edit</span>
+        <% end %>
+        
+        <%# Delete %>
+        <%= button_to chat_message_path(@chat, message),
+                      method: :delete,
+                      data: { turbo_confirm: "Delete this message?" },
+                      class: "w-full px-4 py-3 text-left text-sm text-red-400 hover:bg-red-500/20 hover:text-red-200 flex items-center gap-3 transition-all duration-200 relative group",
+                      onclick: "hideContextMenu(#{message.id})",
+                      form: { class: "w-full" } do %>
+          <div class="absolute inset-0 bg-gradient-to-r from-red-500/0 via-red-500/10 to-red-500/0 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+          <i class="ph-bold ph-trash text-base relative z-10"></i>
+          <span class="relative z-10">Delete</span>
+        <% end %>
+      <% end %>
     </div>
   </div>
+<% end %>
 
-  <% if message.user == current_user %>
-    <div class="opacity-0 group-hover:opacity-100 transition-opacity flex flex-col gap-2 pt-1">
-      <button onclick="setReply(<%= message.id %>, '<%= j message.body %>')" class="text-green-900 hover:text-green-500 transition-colors">
-        <i class="ph ph-arrow-bend-up-left text-sm"></i>
-      </button>
-    </div>
-  <% end %>
-</div>
+<%# JavaScript %>
+<script>
+(function() {
+  if (window.messageHandlersInit) return;
+  window.messageHandlersInit = true;
+  
+  let touchStartX = 0, touchStartY = 0;
+  let longPressTimer = null;
+  let swipeElement = null;
+  
+  function init() {
+    // Mover todos os context menus para o body
+    document.querySelectorAll('.context-menu-item').forEach(menu => {
+      document.body.appendChild(menu);
+    });
+    
+    document.querySelectorAll('.message-item').forEach(msg => {
+      const content = msg.querySelector('.message-content');
+      
+      // Context menu - Desktop
+      msg.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        const id = this.dataset.messageId;
+        showContextMenu(id, e.pageX, e.pageY);
+      });
+      
+      // Touch handlers - Mobile
+      msg.addEventListener('touchstart', function(e) {
+        const touch = e.touches[0];
+        touchStartX = touch.clientX;
+        touchStartY = touch.clientY;
+        swipeElement = content;
+        
+        longPressTimer = setTimeout(() => {
+          if (navigator.vibrate) navigator.vibrate(50);
+          const id = this.dataset.messageId;
+          showContextMenu(id, touch.pageX, touch.pageY);
+        }, 600);
+      });
+      
+      msg.addEventListener('touchmove', function(e) {
+        clearTimeout(longPressTimer);
+        if (!swipeElement) return;
+        
+        const touch = e.touches[0];
+        const deltaX = touch.clientX - touchStartX;
+        const deltaY = Math.abs(touch.clientY - touchStartY);
+        
+        if (deltaY < 50 && Math.abs(deltaX) > 20) {
+          const swipeAmount = Math.min(Math.abs(deltaX), 80);
+          const direction = deltaX > 0 ? 1 : -1;
+          swipeElement.style.transform = `translateX(${direction * swipeAmount}px)`;
+        }
+      });
+      
+      msg.addEventListener('touchend', function(e) {
+        clearTimeout(longPressTimer);
+        if (!swipeElement) return;
+        
+        const transform = swipeElement.style.transform;
+        const match = transform.match(/translateX\(([^)]+)px\)/);
+        const distance = match ? Math.abs(parseFloat(match[1])) : 0;
+        
+        if (distance > 60) {
+          const id = this.dataset.messageId;
+          const body = this.dataset.messageBody;
+          replyToMessage(id, body);
+          if (navigator.vibrate) navigator.vibrate(30);
+        }
+        
+        swipeElement.style.transform = '';
+        swipeElement = null;
+      });
+    });
+    
+    // Fechar menu ao clicar fora
+    document.addEventListener('click', function(e) {
+      if (!e.target.closest('.context-menu-item')) {
+        document.querySelectorAll('.context-menu-item').forEach(m => m.classList.add('hidden'));
+      }
+    });
+  }
+  
+  window.showContextMenu = function(id, x, y) {
+    document.querySelectorAll('.context-menu-item').forEach(m => m.classList.add('hidden'));
+    
+    const menu = document.getElementById(`context-menu-${id}`);
+    if (!menu) return;
+    
+    menu.classList.remove('hidden');
+    menu.style.left = x + 'px';
+    menu.style.top = y + 'px';
+    
+    setTimeout(() => {
+      const rect = menu.getBoundingClientRect();
+      if (rect.right > window.innerWidth) menu.style.left = (window.innerWidth - rect.width - 10) + 'px';
+      if (rect.bottom > window.innerHeight) menu.style.top = (y - rect.height - 10) + 'px';
+    }, 0);
+  };
+  
+  window.hideContextMenu = function(id) {
+    const menu = document.getElementById(`context-menu-${id}`);
+    if (menu) menu.classList.add('hidden');
+  };
+  
+  window.copyMessageText = function(text) {
+    navigator.clipboard.writeText(text);
+  };
+  
+  document.addEventListener('DOMContentLoaded', init);
+  document.addEventListener('turbo:load', init);
+  if (document.readyState === 'complete') init();
+})();
+</script>
+
+<style>
+  @keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(200%); }
+  }
+  .animate-shimmer {
+    animation: shimmer 3s infinite;
+  }
+  
+  .overflow-wrap-anywhere {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+  
+  /* Forçar z-index do context menu */
+  .context-menu-item {
+    z-index: 999999 !important;
+    position: fixed !important;
+  }
+</style>
+
+
